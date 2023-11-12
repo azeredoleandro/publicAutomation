@@ -4,6 +4,7 @@
 # Future implementations should scan the OS for installed components and allow the user to install the missing ones only.
 # Collaboration is always appreciated!
 
+# Tested on Windows 10 Version	10.0.22621 Build 22621
 # Tested with PowerShell PSVersion 5.1
 # To get your PowerShell Version, run the command: $PSVersionTable
 
