@@ -112,6 +112,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force
 Install-Module -Name PowerShellGet -Force
 
 # Install pip
+# pip já faz parte do pacote do python
 Invoke-Expression (Invoke-WebRequest https://bootstrap.pypa.io/get-pip.py -UseBasicParsing).Content
 
 # Install choco
