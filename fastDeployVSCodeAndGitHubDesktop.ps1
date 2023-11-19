@@ -34,17 +34,16 @@ Write-Host "Dear user, this code is provided 'as is', you will be executing it a
 # Prompt user to confirm
 $confirmation = Read-Host "This script will install dependencies on your System. Do you want to proceed? (Y/N)"
 
-while ($confirmation -ne "Y" -and $confirmation -ne "N") {
+while ($confirmation -ne "Y") {
     $confirmation = Read-Host "Invalid input. Do you want to proceed? (Y/N)"
+    if ($confirmation -eq "N") {
+        Write-Host "Quitting the code..."
+        return
+    }else{
+        # If the confirmation is "Y", the script will continue here
+        Write-Host "Proceeding with the script..."
+    }
 }
-
-if ($confirmation -eq "N") {
-    Write-Host "Quitting the code..."
-    return
-}
-
-# If the confirmation is "Y", the script will continue here
-Write-Host "Proceeding with the script..."
 
 #
 # Section 3 - Check if the applications are already installed
@@ -57,7 +56,8 @@ $isPowerShellGetModuleInstalled = if (Get-Module -Name PowerShellGet -ListAvaila
 $isChocinstalled = Test-Path "C:\ProgramData\chocolatey\bin\choco.exe"
 
 # Is Python V3 installed?
-$isPython3Installed = if (Get-Command python3) { Write-Host "Python version: $(python --version)"} else {$false}
+$isPython3Version = if (Get-Command python3) { 
+    Write-Host "Python version: $(python --version)" ; $isPython3Installed = "True" }else{$false}
 
 # And about what Python V2, maybe?
 $isPython2Installed = Get-Command python -ErrorAction SilentlyContinue | Where-Object { $_.FileVersionInfo.ProductMajorPart -eq 2 } | Select-Object -First 1
@@ -74,11 +74,11 @@ $isGitInstalled = Test-Path "$env:userprofile\appdata\local\GitHubDesktop\GitHub
 #Installation Report 
 # 
 Write-Host "PowerShell install Status:" $isPowerShellGetModuleInstalled
-Write-Host "Chocolatey install Status:" Write-Host $isChocinstalled
-Write-Host "Python v3 install Status:" Write-Host $isPython3Installed
-Write-Host "Python v2 install Status:" Write-Host $isPython2Installed
-Write-Host "Pip install Status:" Write-Host $isPipInstalled
-Write-Host "GitHub Desktop install Status:" write-Host $isGitInstalled
+Write-Host "Chocolatey install Status:" $isChocinstalled
+Write-Host "Python v3 install Status:" $isPython3Installed
+Write-Host "Python v2 install Status:" $isPython2Installed
+Write-Host "Pip install Status:"  $isPipInstalled
+Write-Host "GitHub Desktop install Status:" $isGitInstalled
 
 # Will walk through the vector later: 
 # $vectorOfResults = @($isChocinstalled,$isPython3Installed,$isPython2Installed,$isPipInstalled,$isGitInstalled) 
@@ -93,13 +93,14 @@ Write-Host "GitHub Desktop install Status:" write-Host $isGitInstalled
 Write-Host "Dependencies install will begin now"
 
 $confirmation = Read-Host "Do you want to proceed? (Y/N)"
-while ($confirmation -ne "Y" -and $confirmation -ne "N") {
-    $confirmation = Read-Host "Invalid input. Do you want to proceed? (Y/N)"
+while ($confirmation -ne "Y") {
+    $confirmation = Read-Host "Invalid input or not accept. Do you want to proceed? (Y/N)"
+    if ($confirmation -eq "N") {
+        Write-Host "Quitting the code..."
+        exit
+    }
 }
-if ($confirmation -eq "N") {
-    Write-Host "Quitting the code..."
-    exit
-}
+
 
 # If the confirmation is "Y", the code will continue here
 Write-Host "Proceeding with the code..."
