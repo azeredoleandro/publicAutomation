@@ -1,9 +1,3 @@
-
-function Set-ExecutionPolicyForInstallations {
-    $policy = Get-ExecutionPolicy
-    Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-}
-
 Write-Host "Dear user, this code is provided 'as is', you will be executing it at your own discretion and tech expertise, please avoid applying this code unless comfortable with its implications"
 
 $confirmation = Read-Host "This script will install dependencies on your System. Do you want to proceed? (Y/N)"
@@ -13,8 +7,15 @@ if ($confirmation -ne "Y") {
     return
 }else{
     Write-Host "Proceeding with the script..."
+
+    function Set-ExecutionPolicyForInstallations {
+        $policy = Get-ExecutionPolicy
+        Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+    }
+
     $isPowerShellGetModuleInstalled = if (Get-Module -Name PowerShellGet -ListAvailable) { $true } else { $false }
-    $isChocinstalled = Test-Path "C:\ProgramData\chocolatey\bin\choco.exe"
+    #$isChocinstalled = Test-Path "C:\ProgramData\chocolatey\bin\choco.exe"
+    $isChocinstalled = (Get-Command choco).Path
     $isPython3Version = if (Get-Command python3) { 
         Write-Host "Python version: $(python --version)" ; $isPython3Installed = "True" }else{$false}
     $isPython2Installed = Get-Command python -ErrorAction SilentlyContinue | Where-Object {
