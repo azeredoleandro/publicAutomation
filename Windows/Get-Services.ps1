@@ -27,28 +27,28 @@ Divirta-se, espero que esse código lhe ajude e, que a força esteja com você!
 
 #>
 
-# Retrieve running services using WMI.
-# Recupera os serviços em execução usando o WMI.
+#Retrieve running services using WMI.
+#Recupera os serviços em execução usando o WMI.
 
 $services = Get-WmiObject Win32_Service | Where-Object { $_.State -eq 'Running' } | ForEach-Object {
     
-    # Retrieve service display name.
-    # Recupera o nome de exibição do serviço.
+    #Retrieve service display name.
+    #Recupera o nome de exibição do serviço.
     
     $serviceName = $_.DisplayName
     
-    # Retrieve process ID associated with the service.
-    # Recupera o ID do processo associado ao serviço.
+    #Retrieve process ID associated with the service.
+    #Recupera o ID do processo associado ao serviço.
     
     $processId = $_.ProcessId
     
-    # Retrieve process information using the process ID.
-    # Recupera as informações do processo usando o ID do processo.
+    #Retrieve process information using the process ID.
+    #Recupera as informações do processo usando o ID do processo.
     
     $process = Get-Process -Id $processId
 
-    # Create a custom object containing service name, start time, and process ID.
-    # Cria um objeto personalizado contendo nome do serviço, tempo de início e ID do processo.
+    #Create a custom object containing service name, start time, and process ID.
+    #Cria um objeto personalizado contendo nome do serviço, tempo de início e ID do processo.
     
     [PSCustomObject]@{
         ServiceName = $serviceName
